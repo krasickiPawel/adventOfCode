@@ -9,9 +9,9 @@
 using namespace std;
 
 int* fileRead() {
-    static int fileData[2000];
+    static int fileData[2000];              //miejsce na 1000 komend i 1000 wartosci tych komend (tablica 1000 stringow zajmuje wiecej pamiec)
     ifstream file;
-    string input;
+    string input;                           //zmienna pomocnicza przy odczycie pliku
     int inputOperation;
 
     file.open("input2.txt");
@@ -19,8 +19,8 @@ int* fileRead() {
     for (int i = 0; i < 2000; i++) {
         
         file >> input;
-        if (input == "forward") {
-            inputOperation = -1;
+        if (input == "forward") {           //sprawdzenie jaka to komenda i zamiana jej na odpowiednia wartosc
+            inputOperation = -1;            //wartosci ujemne bo nie ma takich w danych advent of code
             fileData[i] = inputOperation;
         }
         else if (input == "down") {
@@ -32,7 +32,7 @@ int* fileRead() {
             fileData[i] = inputOperation;
         }
         else {
-            fileData[i] = stoi(input);
+            fileData[i] = stoi(input);     //jesli to nie komenda to jest to wartosc liczbowa i zamieniamy ja na int i wpisujemy do tab
         }
     }
 
@@ -44,18 +44,18 @@ int* fileRead() {
 int* task1(int* fileData) {
     int horisontalPosition = 0;
     int depth = 0;
-    static int result[3];
+    static int result[3];                   //wynik w postaci horisontal pos., depth i wymnozone
 
-    for (int i = 0; i < 2000; i++) {
-        if (fileData[i] == -1) {
-            horisontalPosition += fileData[i + 1];
+    for (int i = 0; i < 2000; i++) {        //wlasciwe obliczanie glebokosci i pozycji horyzontalnej
+        if (fileData[i] == -1) {            //sprawdzenie jaka to komenda (forward, down, up) - tutaj forward
+            horisontalPosition += fileData[i + 1];  //dodanie odpowiedniej wartosci do horisontal pos. 
             cout << "forward " << fileData[i + 1] << endl;
         }
-        else if (fileData[i] == -2) {
+        else if (fileData[i] == -2) {       //down
             depth += fileData[i + 1];
             cout << "down " << fileData[i + 1] << endl;
         }
-        else if (fileData[i] == -3) {
+        else if (fileData[i] == -3) {       //up
             depth -= fileData[i + 1];
             cout << "up " << fileData[i + 1] << endl;
         }
@@ -70,21 +70,21 @@ int* task1(int* fileData) {
 int* task2(int* fileData) {
     int horisontalPosition = 0;
     int depth = 0;
-    int aim = 0;
+    int aim = 0;                //roznica wzgledem task1 - patrz opis AoC 2021 day2 task2
     static int result[3];
 
     for (int i = 0; i < 2000; i++) {
         if (fileData[i] == -1) {
-            horisontalPosition += fileData[i + 1];
-            depth += aim*fileData[i + 1];
+            horisontalPosition += fileData[i + 1];      //zwiekszanie hor. pos. o dana wartosc
+            depth += aim*fileData[i + 1];               //i zwiekszanie depth o aim*dana wartosc
             cout << "forward " << fileData[i + 1] << endl;
         }
         else if (fileData[i] == -2) {
-            aim += fileData[i + 1];
+            aim += fileData[i + 1];                     //zwiekszanie aim gdy down
             cout << "down " << fileData[i + 1] << endl;
         }
         else if (fileData[i] == -3) {
-            aim -= fileData[i + 1];
+            aim -= fileData[i + 1];                     //zmniejszanie aim gdy up
             cout << "up " << fileData[i + 1] << endl;
         }
     }
@@ -97,26 +97,26 @@ int* task2(int* fileData) {
 
 int main()
 {
-    clock_t start, elapsed;
+    clock_t start, elapsed;             //liczenie czasu wykonywania programu - dla mnie for fun
     start = clock();
 
-    int* fileData = fileRead();
-    int* result = task1(fileData);
+    int* fileData = fileRead();         //odczyt pliku
+    int* result = task1(fileData);      //wykonanie zad1
 
     cout << endl;
     cout << "Horisontal position " << result[0] << endl;
     cout << "Depth " << result[1] << endl;
-    cout << "Result " << result[2] << endl;
+    cout << "Result " << result[2] << endl;     //wypisanie wynikow zad1
     
-    int* result2 = task2(fileData);
+    int* result2 = task2(fileData);     //wykonanie zad2
 
     cout << endl;
     cout << "Horisontal position " << result2[0] << endl;
     cout << "Depth " << result2[1] << endl;
-    cout << "Result " << result2[2] << endl;
+    cout << "Result " << result2[2] << endl;    //wypisanie wynikow zad2
 
     elapsed = clock() - start;
-    cout << "Time [ms] " << (1000*elapsed)/CLOCKS_PER_SEC << endl;
+    cout << "Time [ms] " << (1000*elapsed)/CLOCKS_PER_SEC << endl;  //wypisanie czasu
 
     return 0;
 }

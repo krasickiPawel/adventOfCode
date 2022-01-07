@@ -10,7 +10,7 @@ namespace aoc4
     {
         private GameData gameData;
         private int score;
-        private int[] indexesFinished;
+        private int[] indexesFinished;  //zapisanie ktore plansze juz wygraly (szukamy najbardziej przegranej czyli tej ktora wygra jako ostatnia - bedzie miala najdluzej -1)
         //private int lastNumber;
         public Task2(GameData gameData)
         {
@@ -23,13 +23,13 @@ namespace aoc4
             int length = gameData.Boards.Count;
             indexesFinished = new int[length];
             for (int i = 0; i < length; i++){
-                indexesFinished[i] = -1;
+                indexesFinished[i] = -1;        //przypisanie wszystkim plansza -1 czyli ze jeszcze graja. jak wygra plansza to jej wartosc w tej liscie zmieni sie na 0)
             }
         }
 
         public void Calculate()
         {
-            foreach (int number in gameData.NumbersToBeTested)
+            foreach (int number in gameData.NumbersToBeTested)  //przebieg gry jak w task1
             {
                 foreach (int[,] board in gameData.Boards)
                 {
@@ -45,8 +45,8 @@ namespace aoc4
                     }
                 }
 
-                foreach (int[,] board in gameData.Boards)
-                {
+                foreach (int[,] board in gameData.Boards)   //delikatna roznica wzgledem task1 - zostana wymienione tylko roznice
+                {                                           //sprawdzamy wszystkie plansze czy sa wygrane
                     int[] columnSum = new int[5];
 
                     for (int i = 0; i < 5; i++)
@@ -59,23 +59,23 @@ namespace aoc4
                             columnSum[j] += board[i, j];
                         }
 
-                        if (rowSum == -5) indexesFinished[gameData.Boards.IndexOf(board)] = 0;
+                        if (rowSum == -5) indexesFinished[gameData.Boards.IndexOf(board)] = 0;  //jesli plansza zakonczy gre to jej indeksowi w indexesFinished przypisywane jest 0
                     }
                     for (int i = 0; i < 5; i++)
                     {
-                        if(columnSum[i] == -5) indexesFinished[gameData.Boards.IndexOf(board)] = 0;
+                        if(columnSum[i] == -5) indexesFinished[gameData.Boards.IndexOf(board)] = 0; //to samo co powyzej
                     }
-                    if (indexesFinished.Sum() == 0) 
-                    {
-                        CalculateScore(number, board);
-                        return;
+                    if (indexesFinished.Sum() == 0)     //gramy dopoki wszystkie plansze nie zakoncza gry - dopoki suma w liscie indeksow jest rozna od 0 czyli ujemna
+                    {                                   //jesli nagle suma jest 0 to ostatnia plansza zakonczyla gre (mamy ja z foreach i mamy tez aktualnie badana liczbe)
+                        CalculateScore(number, board);  //obliczamy wynik planszy ktora wygrala jako ostatnia
+                        return;                         //konczymy gre
                     }
                 }
 
             }
         }
 
-        private void CalculateScore(int lastNumber, int[,] lastBoard)
+        private void CalculateScore(int lastNumber, int[,] lastBoard)   //liczenie wyniku takie samo jak w task1
         {
             int total = 0;
 

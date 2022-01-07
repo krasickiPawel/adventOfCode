@@ -8,21 +8,21 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		ArrayList<ArrayList<Integer>> data = fileRead();
+		ArrayList<ArrayList<Integer>> data = fileRead();			//odczyt pliku
 		
 		System.out.println("Zad1:");
-		Zad1 zad1 = new Zad1();
-		zad1.calculate(data);
+		Zad1 zad1 = new Zad1();										//inicjalizacja zad1
+		zad1.calculate(data);										//obliczenie zad1
 		System.out.println("Result:");
-		System.out.println(zad1.getResult());
+		System.out.println(zad1.getResult());						//wypisanie wyniku zad1
 		System.out.println();
 		System.out.println("-----------------------------------------");
 		
 		System.out.println("Zad2:");
-		Zad2 zad2 = new Zad2();
-		zad2.calculate(data);
+		Zad2 zad2 = new Zad2();										//inicjalizacja zad2
+		zad2.calculate(data);										//obliczenie zad2
 		System.out.println("Result:");
-		System.out.println(zad2.getResult());
+		System.out.println(zad2.getResult());						//wypisanie wyniku zad2
 		System.out.println();
 	}
 	
